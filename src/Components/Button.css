@@ -1,0 +1,18 @@
+.button {
+  outline: none;
+  background-color: #bbb8b8;
+  font-size: 1.4rem;
+}
+.button:active {
+  background-color: #9e9d9d;
+}
+.button.operation {
+  background-color: #702525;
+  color: white;
+}
+.button.operation:active {
+  background-color: #491818;
+}
+.button.clear {
+  grid-column: span 4;
+}
