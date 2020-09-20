@@ -15,27 +15,43 @@ export default class Calculator extends React.Component {
   state = { ...initialState };
   clear = () => {
     this.setState({ ...initialState });
-    console.log(this.state.displayValue);
   };
   setOperation = (button) => {
     if (this.state.current === 0) {
       this.setState({ clearDisplay: true, operation: button, current: 1 });
     } else {
-      const equals = button === "=";
       const currentOperation = this.state.operation;
       const values = { ...this.state.values };
-      //Eval can lead to errors if "=" button is pressed multiple times. Also security breaches
       try {
-        values[0] = eval(`${values[0]} ${currentOperation} ${values[1]}`);
+        switch(currentOperation){
+          case '+':
+            values[0] = values[0] + values[1];
+            values[1] = 0;
+            break;
+          case '-':
+            values[0] = values[0] - values[1];
+            values[1] = 0;
+            break;
+          case '/':
+            values[0] = values[0] / values[1];
+            values[1] = 0;
+            break;
+          case '*':
+            values[0] = values[0] * values[1];
+            values[1] = 0;
+            break;  
+          default:  
+             return 0;
+        }
       } catch (e) {
         console.log(e);
       }
-      values[1] = 0;
+      const isOperationEquals = button === "=";
       this.setState({
         displayValue: values[0],
-        clearDisplay: !equals,
-        operation: equals ? null : button,
-        current: equals ? 0 : 1,
+        clearDisplay: !isOperationEquals,
+        operation: isOperationEquals ? null : button,
+        current: isOperationEquals ? 0 : 1,
         values,
       });
     }
@@ -43,24 +59,25 @@ export default class Calculator extends React.Component {
   addDigit = (button) => {
     let n = button;
     if (this.state.displayValue === "0" && n === ".") {
+      // do nothing
       return;
     }
     if (n === "." && this.state.displayValue.includes(".")) {
+      // do nothing
       return;
     }
-    const clearDisplay =
-      this.state.displayValue === "0" || this.state.clearDisplay;
+    const clearDisplay = this.state.displayValue === "0" || this.state.clearDisplay;
     const currentValue = clearDisplay ? "" : this.state.displayValue;
     const displayValue = currentValue + n;
     this.setState({ displayValue, clearDisplay: false });
-
     const pos = this.state.current;
     const values = { ...this.state.values };
     values[pos] = parseFloat(displayValue);
     this.setState({ values });
   };
   passInfo = (button) => {
-    if (isNaN(parseInt(button))) {
+    const isButtonOperation = isNaN(parseInt(button));
+    if (isButtonOperation) {
       button === "." ? this.addDigit(button) : this.setOperation(button);
     } else {
       this.addDigit(button);

@@ -1,10 +1,5 @@
-@font-face{
-  font-family: 'RobotoMono';
-  src: url('./fonts/RobotoMono-Thin.ttf');
-}
-
 *{
-  font-family: 'RobotoMono', monospace;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body{
