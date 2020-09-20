@@ -33,6 +33,10 @@ export default class Calculator extends React.Component {
             values[1] = 0;
             break;
           case '/':
+            if(values[1] === 0){
+              this.setState({displayValue:'Não é possível dividir por zero'});
+              return;
+            }
             values[0] = values[0] / values[1];
             values[1] = 0;
             break;
@@ -58,6 +62,11 @@ export default class Calculator extends React.Component {
   };
   addDigit = (button) => {
     let n = button;
+    let zeroMsg = 'Não é possível dividir por zero';
+    if(this.state.displayValue === zeroMsg){
+      this.setState({...initialState});
+      return;
+    }
     if (this.state.displayValue === "0" && n === ".") {
       // do nothing
       return;
