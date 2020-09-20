@@ -4,4 +4,4 @@ This is a simple calculator, done with pure react. It's a project that has been 
 
 ## Use
 
-Run NPM start on the root folder of the project, it will open the application at http://localhost:3000
+Run npm install on the root folder and then npm start, it will open the application at http://localhost:3000
